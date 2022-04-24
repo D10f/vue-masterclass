@@ -6,12 +6,15 @@
 
     <PostList :posts="threadPosts" />
 
+    <PostEditor @save="addPost" />
+
   </div>
 </template>
 
 <script>
 import sourceData from '@/data.json'
 import PostList from '@/components/PostList.vue'
+import PostEditor from '@/components/PostEditor.vue'
 
 export default {
   name: 'ThreadShow',
@@ -22,12 +25,14 @@ export default {
     }
   },
   components: {
-    PostList
+    PostList,
+    PostEditor
   },
   data () {
     return {
       threads: sourceData.threads,
-      posts: sourceData.posts
+      posts: sourceData.posts,
+      newPostText: ''
     }
   },
   computed: {
@@ -36,6 +41,17 @@ export default {
     },
     threadPosts () {
       return this.posts.filter(p => p.threadId === this.id)
+    }
+  },
+  methods: {
+    addPost (eventData) {
+      const post = {
+        ...eventData.post,
+        threadId: this.id
+      }
+
+      this.posts.push(post)
+      this.threads.posts.push(post.id)
     }
   }
 }
