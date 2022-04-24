@@ -27,7 +27,6 @@
 </template>
 
 <script>
-import AppDate from '@/components/AppDate.vue'
 import sourceData from '@/data.json'
 
 export default {
@@ -37,9 +36,6 @@ export default {
       type: Object,
       required: true
     }
-  },
-  components: {
-    AppDate
   },
   data () {
     return {
