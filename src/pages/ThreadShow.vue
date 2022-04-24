@@ -40,7 +40,7 @@
 import sourceData from '@/data.json'
 
 export default {
-  name: 'PageHome',
+  name: 'ThreadShow',
   props: {
     id: {
       required: true,
