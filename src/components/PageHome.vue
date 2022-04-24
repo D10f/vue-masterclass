@@ -1,46 +1,17 @@
 <template>
-  <div v-for="thread in threads" :key="thread.id" class="col-large push-top">
-    <h1>{{ thread.title }}</h1>
-
-    <!-- Info about author of thread omitted for now -->
-
-    <div class="post-list">
-      <div class="post" v-for="postId in thread.posts" :key="postId">
-        <div class="user-info">
-          <a href="#" class="user-name">{{
-            userById(postById(postId).userId).name
-          }}</a>
-          <a href="">
-            <img
-              class="avatar-large"
-              :src="userById(postById(postId).userId).avatar"
-              alt=""
-            />
-          </a>
-          <p class="desktop-only text-small">107 posts</p>
-        </div>
-
-        <div class="post-content">
-          <div>
-            <p>{{ postById(postId).text }}</p>
-          </div>
-        </div>
-
-        <div class="post-data text-faded">
-          {{ postById(postId).publishedAt }}
-        </div>
-
-        <!-- REACTIONS GO HERE -->
-      </div>
-    </div>
-  </div>
+  <h1>Welcome To The Forum</h1>
+  <ThreadList :threads="threads" />
 </template>
 
 <script>
 import sourceData from '@/data.json'
+import ThreadList from '@/components/ThreadList.vue'
 
 export default {
   name: 'PageHome',
+  components: {
+    ThreadList
+  },
   data () {
     return {
       threads: sourceData.threads,
