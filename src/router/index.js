@@ -23,7 +23,7 @@ const routes = [
       }
       next({
         name: 'NotFound',
-        params: { pathMatch: to.path.split('/').substr(1, '/') },
+        params: { pathMatch: to.path.replace('/', '').split('/') },
         query: to.query,
         hash: to.hash
       })
