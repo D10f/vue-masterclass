@@ -3,6 +3,7 @@ import Home from '@/pages/Home.vue'
 import ThreadShow from '@/pages/ThreadShow.vue'
 import Forum from '@/pages/Forum.vue'
 import Category from '@/pages/Category.vue'
+import Profile from '@/pages/Profile.vue'
 import NotFound from '@/pages/NotFound.vue'
 import store from '@/store'
 
@@ -11,6 +12,11 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/me',
+    name: 'Profile',
+    component: Profile
   },
   {
     path: '/thread/:id',

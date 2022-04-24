@@ -27,14 +27,13 @@ export default {
     PostList,
     PostEditor
   },
-  data () {
-    return {
-      threads: this.$store.state.threads,
-      posts: this.$store.state.posts,
-      newPostText: ''
-    }
-  },
   computed: {
+    threads () {
+      return this.$store.state.threads
+    },
+    posts () {
+      return this.$store.state.posts
+    },
     thread () {
       return this.threads.find(t => t.id === this.id)
     },
@@ -49,8 +48,7 @@ export default {
         threadId: this.id
       }
 
-      this.posts.push(post)
-      this.threads.posts.push(post.id)
+      this.$store.dispatch('createPost', post)
     }
   }
 }

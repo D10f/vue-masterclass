@@ -29,12 +29,10 @@ export default {
   },
   methods: {
     save () {
-      const postId = `-${Math.random()}`
       const post = {
         publishedAt: Math.floor(Date.now() / 1000), // time in ms
         text: this.text,
-        userId: 'ALXhxjwgY9PinwNGHpfai6OWyDu2',
-        id: postId
+        userId: 'ALXhxjwgY9PinwNGHpfai6OWyDu2'
       }
 
       this.$emit('save', { post })
