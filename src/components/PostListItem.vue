@@ -20,16 +20,19 @@
       </div>
     </div>
 
-    <div class="post-data text-faded">
-      {{ post.publishedAt }}
+    <div class="post-data text-faded" :title="parseDate(post.publishedAt)">
+      {{ parseDate(post.publishedAt, { isRelative: true }) }}
     </div>
-
     <!-- REACTIONS GO HERE -->
   </div>
 </template>
 
 <script>
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 import sourceData from '@/data.json'
+
+dayjs.extend(relativeTime)
 
 export default {
   name: 'PostListItem',
@@ -47,6 +50,10 @@ export default {
   methods: {
     userById (userId) {
       return this.users.find((u) => u.id === userId)
+    },
+    parseDate (timestamp, { isRelative } = {}) {
+      const date = dayjs.unix(timestamp)
+      return isRelative ? date.fromNow() : date
     }
   }
 }
