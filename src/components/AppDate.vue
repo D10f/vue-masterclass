@@ -1,7 +1,7 @@
 <template>
-  <div :title="date">
+  <time :title="date">
     {{ relativeDate }}
-  </div>
+  </time>
 </template>
 
 <script>

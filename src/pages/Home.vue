@@ -1,30 +1,20 @@
 <template>
   <h1>Welcome To The Forum</h1>
-  <ThreadList :threads="threads" />
+  <CategoryList :categories="categories" />
 </template>
 
 <script>
 import sourceData from '@/data.json'
-import ThreadList from '@/components/ThreadList.vue'
+import CategoryList from '@/components/CategoryList.vue'
 
 export default {
   name: 'PageHome',
   components: {
-    ThreadList
+    CategoryList
   },
   data () {
     return {
-      threads: sourceData.threads,
-      posts: sourceData.posts,
-      users: sourceData.users
-    }
-  },
-  methods: {
-    postById (postId) {
-      return this.posts.find((p) => p.id === postId)
-    },
-    userById (userId) {
-      return this.users.find((u) => u.id === userId)
+      categories: sourceData.categories
     }
   }
 }
