@@ -4,8 +4,7 @@ import ThreadShow from '@/pages/ThreadShow.vue'
 import Forum from '@/pages/Forum.vue'
 import Category from '@/pages/Category.vue'
 import NotFound from '@/pages/NotFound.vue'
-
-import sourceData from '@/data.json'
+import store from '@/store'
 
 const routes = [
   {
@@ -19,7 +18,7 @@ const routes = [
     component: ThreadShow,
     props: true,
     beforeEnter (to, _from, next) {
-      const match = sourceData.threads.find((t) => t.id === to.params.id)
+      const match = store.state.threads.find((t) => t.id === to.params.id)
       if (match) {
         return next()
       }

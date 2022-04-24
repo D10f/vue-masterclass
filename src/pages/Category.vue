@@ -4,7 +4,6 @@
 </template>
 
 <script>
-import sourceData from '@/data.json'
 import CategoryList from '@/components/CategoryList.vue'
 
 export default {
@@ -18,10 +17,7 @@ export default {
   },
   computed: {
     currentCategory () {
-      return sourceData.categories.find(c => c.id === this.id)
-    },
-    categoryForums () {
-      return sourceData.forums.filter(f => f.categoryId === this.id)
+      return this.$store.state.categories.find(c => c.id === this.id)
     }
   }
 }
