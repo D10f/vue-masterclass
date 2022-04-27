@@ -1,4 +1,4 @@
-# vue-school
+# vue-masterclass
 
 ## Project setup
 ```
