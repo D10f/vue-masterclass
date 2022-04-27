@@ -14,6 +14,7 @@ module.exports = {
     'no-unused-vars': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'vue/no-side-effects-in-computed-properties': process.env.NODE_ENV === 'production' ? 'error' : 'warn'
+    'vue/no-side-effects-in-computed-properties': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
+    'space-before-function-paren': 'off'
   }
 }

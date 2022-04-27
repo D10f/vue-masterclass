@@ -2,14 +2,6 @@ import { createStore } from 'vuex'
 import { findById, upsert } from '@/helpers'
 import sourceData from '@/data.json'
 
-const makeAppendChildToParentMutation = ({ parent, child }) => {
-  return (state, { childId, parentId }) => {
-    const resource = findById(state[parent], parentId)
-    resource[child] = resource[child] || []
-    resource[child].push(childId)
-  }
-}
-
 export default createStore({
   state: {
     ...sourceData,
@@ -32,6 +24,23 @@ export default createStore({
           return this.threads.length
         }
       }
+    },
+    thread: state => {
+      return (threadId) => {
+        const thread = findById(state.threads, threadId)
+        return {
+          ...thread,
+          get author () {
+            return findById(state.users, thread.userId)
+          },
+          get replies () {
+            return thread.posts.length - 1
+          },
+          get contributors () {
+            return thread.contributors.length
+          }
+        }
+      }
     }
   },
   actions: {
@@ -44,6 +53,7 @@ export default createStore({
 
       commit('setPost', { post })
       commit('addPostToThread', { childId: postId, parentId: post.threadId })
+      commit('addContributorToThread', { childId: state.authId, parentId: post.threadId })
     },
 
     async createThread ({ commit, state, dispatch }, { text, title, forumId }) {
@@ -90,6 +100,8 @@ export default createStore({
 
     addPostToThread: makeAppendChildToParentMutation({ parent: 'threads', child: 'posts' }),
 
+    addContributorToThread: makeAppendChildToParentMutation({ parent: 'threads', child: 'contributors' }),
+
     addThreadToForum: makeAppendChildToParentMutation({ parent: 'forums', child: 'threads' }),
 
     addThreadToUser: makeAppendChildToParentMutation({ parent: 'users', child: 'threads' })
@@ -110,3 +122,14 @@ export default createStore({
     // }
   }
 })
+
+function makeAppendChildToParentMutation ({ parent, child }) {
+  return (state, { childId, parentId }) => {
+    const resource = findById(state[parent], parentId)
+    resource[child] = resource[child] || []
+
+    if (resource[child].includes(childId)) {
+      resource[child].push(childId)
+    }
+  }
+}
