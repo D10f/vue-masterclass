@@ -4,12 +4,14 @@
       <h1>{{ currentThread.title }}</h1>
       <router-link :to="{ name: 'HomePage' }">Back</router-link>
     </header>
-    <PostList :posts="threadPosts" @add-post="addPost" />
+    <PostList :posts="threadPosts" />
+    <PostEditor @add-post="addPost" />
   </div>
 </template>
 
 <script>
 import PostList from '@/components/PostList.vue';
+import PostEditor from '@/components/PostEditor.vue';
 import sourceData from '@/data.json';
 
 export default {
@@ -22,6 +24,7 @@ export default {
   },
   components: {
     PostList,
+    PostEditor,
   },
   data() {
     return {
@@ -48,7 +51,7 @@ export default {
         userId: 'u4r8XCziZEWEXsj2UIKNHBoDh0n2',
       };
       this.posts.push(newPost);
-      this.threads.find((t) => t.id === this.threadId).posts.push(newPostId);
+      this.currentThread.posts.push(newPostId);
     },
   },
 };

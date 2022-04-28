@@ -1,19 +1,39 @@
 <template>
-  <div class="col-large push-top">
-    <h1>Browse all the forums</h1>
-    <ForumList :categories="categories" />
+  <div class="col-full push-top">
+    <div class="forum-header">
+      <div class="forum-details">
+        <h1>{{ forum.name }}</h1>
+        <p class="text-lead">{{ forum.description }}</p>
+      </div>
+      <a href="new-thread.html" class="btn-green btn-small">Start a thread</a>
+    </div>
+  </div>
+
+  <div class="col-full">
+    <ThreadList :threads="threads" />
   </div>
 </template>
 
 <script>
 import sourceData from '@/data.json';
+import ThreadList from '@/components/ThreadList.vue';
 
 export default {
   name: 'ForumShow',
-  data() {
-    return {
-      categories: sourceData.categories,
-    };
+  props: {
+    forumId: {
+      type: String,
+      required: true,
+    },
+  },
+  components: { ThreadList },
+  computed: {
+    forum() {
+      return sourceData.forums.find((f) => f.id === this.forumId);
+    },
+    threads() {
+      return sourceData.threads.filter((t) => t.forumId === this.forumId);
+    },
   },
 };
 </script>

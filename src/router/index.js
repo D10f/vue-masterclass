@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomePage from '@/pages/HomePage.vue';
 import ThreadShow from '@/pages/ThreadShow.vue';
+import ForumShow from '@/pages/ForumShow.vue';
+import CategoryShow from '@/pages/CategoryShow.vue';
 import NotFound from '@/pages/NotFound.vue';
 
 import sourceData from '@/data.json';
@@ -30,6 +32,18 @@ const routes = [
         };
       }
     },
+  },
+  {
+    path: '/forum/:forumId',
+    name: 'ForumShow',
+    component: ForumShow,
+    props: true,
+  },
+  {
+    path: '/category/:categoryId',
+    name: 'CategoryShow',
+    component: CategoryShow,
+    props: true,
   },
   {
     path: '/:pathMatch(.*)*',

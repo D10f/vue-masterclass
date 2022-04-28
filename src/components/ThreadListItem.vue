@@ -11,7 +11,7 @@
 
       <p class="text-faded text-xsmall">
         By <a href="#">{{ threadAuthor.name }}</a
-        >, {{ thread.publishedAt }}.
+        >, <AppDate :timestamp="thread.publishedAt" />.
       </p>
     </header>
 
@@ -22,7 +22,9 @@
         <p class="text-xsmall">
           <a href="#">{{ threadAuthor.name }}</a>
         </p>
-        <p class="text-xsmall text-faded">{{ thread.publishedAt }}</p>
+        <p class="text-xsmall text-faded">
+          <AppDate :timestamp="thread.publishedAt" />
+        </p>
       </div>
     </div>
   </li>
