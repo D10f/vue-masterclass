@@ -5,7 +5,7 @@ import ForumShow from '@/pages/ForumShow.vue';
 import CategoryShow from '@/pages/CategoryShow.vue';
 import NotFound from '@/pages/NotFound.vue';
 
-import sourceData from '@/data.json';
+import { store } from '@/store';
 
 const routes = [
   {
@@ -14,16 +14,16 @@ const routes = [
     component: HomePage,
   },
   {
-    path: '/thread/:threadId',
-    name: 'ThreadShow',
-    component: ThreadShow,
+    path: '/category/:categoryId',
+    name: 'CategoryShow',
+    component: CategoryShow,
     props: true,
     beforeEnter(to) {
-      const threadExists = sourceData.threads.find(
-        (t) => t.id === to.params.threadId
+      const categoryExists = store.state.categories.find(
+        (c) => c.id === to.params.categoryId
       );
 
-      if (!threadExists) {
+      if (!categoryExists) {
         return {
           name: 'NotFound',
           params: { pathMatch: to.path.split('/').slice(1) },
@@ -38,12 +38,40 @@ const routes = [
     name: 'ForumShow',
     component: ForumShow,
     props: true,
+    beforeEnter(to) {
+      const forumExists = store.state.forums.find(
+        (f) => f.id === to.params.forumId
+      );
+
+      if (!forumExists) {
+        return {
+          name: 'NotFound',
+          params: { pathMatch: to.path.split('/').slice(1) },
+          to: to.query,
+          hash: to.hash,
+        };
+      }
+    },
   },
   {
-    path: '/category/:categoryId',
-    name: 'CategoryShow',
-    component: CategoryShow,
+    path: '/thread/:threadId',
+    name: 'ThreadShow',
+    component: ThreadShow,
     props: true,
+    beforeEnter(to) {
+      const threadExists = store.state.threads.find(
+        (t) => t.id === to.params.threadId
+      );
+
+      if (!threadExists) {
+        return {
+          name: 'NotFound',
+          params: { pathMatch: to.path.split('/').slice(1) },
+          to: to.query,
+          hash: to.hash,
+        };
+      }
+    },
   },
   {
     path: '/:pathMatch(.*)*',

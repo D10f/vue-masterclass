@@ -7,7 +7,6 @@
 
 <script>
 import ForumList from '@/components/ForumList.vue';
-import sourceData from '@/data.json';
 
 export default {
   name: 'CategoryShow',
@@ -20,10 +19,12 @@ export default {
   components: { ForumList },
   computed: {
     currentCategory() {
-      return sourceData.categories.find((c) => c.id === this.categoryId);
+      return this.$store.state.categories.find((c) => c.id === this.categoryId);
     },
     categoryForums() {
-      return sourceData.forums.filter((f) => f.categoryId === this.categoryId);
+      return this.$store.state.forums.filter(
+        (f) => f.categoryId === this.categoryId
+      );
     },
   },
 };

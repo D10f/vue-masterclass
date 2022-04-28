@@ -7,7 +7,6 @@
 
 <script>
 import CategoryList from '@/components/CategoryList.vue';
-import sourceData from '@/data.json';
 
 export default {
   name: 'HomePage',
@@ -16,7 +15,7 @@ export default {
   },
   data() {
     return {
-      categories: sourceData.categories,
+      categories: this.$store.state.categories,
     };
   },
 };

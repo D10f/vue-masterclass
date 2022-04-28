@@ -12,7 +12,6 @@
 <script>
 import PostList from '@/components/PostList.vue';
 import PostEditor from '@/components/PostEditor.vue';
-import sourceData from '@/data.json';
 
 export default {
   name: 'ThreadShow',
@@ -26,32 +25,27 @@ export default {
     PostList,
     PostEditor,
   },
-  data() {
-    return {
-      posts: sourceData.posts,
-      threads: sourceData.threads,
-    };
-  },
   computed: {
     currentThread() {
-      return this.threads.find((t) => t.id === this.threadId);
+      return this.$store.state.threads.find((t) => t.id === this.threadId);
     },
     threadPosts() {
-      return this.posts.filter((p) => p.threadId === this.threadId);
+      return this.$store.state.posts.filter(
+        (p) => p.threadId === this.threadId
+      );
     },
   },
   methods: {
     addPost(text) {
-      const newPostId = `--${Math.random()}`;
       const newPost = {
-        id: newPostId,
         text,
         publishedAt: Math.floor(Date.now() / 1000),
         threadId: this.threadId,
         userId: 'u4r8XCziZEWEXsj2UIKNHBoDh0n2',
       };
-      this.posts.push(newPost);
-      this.currentThread.posts.push(newPostId);
+      // this.posts.push(newPost);
+      // this.currentThread.posts.push(newPostId);
+      this.$store.dispatch('createPost', newPost);
     },
   },
 };
