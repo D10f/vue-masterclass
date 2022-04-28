@@ -3,6 +3,7 @@ import HomePage from '@/pages/HomePage.vue';
 import ThreadShow from '@/pages/ThreadShow.vue';
 import ForumShow from '@/pages/ForumShow.vue';
 import CategoryShow from '@/pages/CategoryShow.vue';
+import ProfilePage from '@/pages/ProfilePage.vue';
 import NotFound from '@/pages/NotFound.vue';
 
 import { store } from '@/store';
@@ -72,6 +73,11 @@ const routes = [
         };
       }
     },
+  },
+  {
+    path: '/me',
+    name: 'ProfilePage',
+    component: ProfilePage,
   },
   {
     path: '/:pathMatch(.*)*',

@@ -43,8 +43,6 @@ export default {
         threadId: this.threadId,
         userId: 'u4r8XCziZEWEXsj2UIKNHBoDh0n2',
       };
-      // this.posts.push(newPost);
-      // this.currentThread.posts.push(newPostId);
       this.$store.dispatch('createPost', newPost);
     },
   },
