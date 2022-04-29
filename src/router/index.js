@@ -78,6 +78,17 @@ const routes = [
     path: '/me',
     name: 'ProfilePage',
     component: ProfilePage,
+    meta: {
+      scrollBehavior: { top: 0, behavior: 'smooth' },
+    },
+  },
+  {
+    path: '/me/edit',
+    name: 'ProfilePageEdit',
+    component: ProfilePage,
+    props: {
+      edit: true,
+    },
   },
   {
     path: '/:pathMatch(.*)*',
@@ -89,4 +100,14 @@ const routes = [
 export const router = createRouter({
   history: createWebHistory(),
   routes,
+  // eslint-disable-next-line
+  scrollBehavior(to, from) {
+    // One way to enforce scroll behavior when switching routes
+    // if (to.meta.scrollBehavior) {
+    //   return to.meta.scrollBehavior;
+    // }
+
+    // Enable for all routes
+    return { top: 0, behavior: 'smooth' };
+  },
 });
