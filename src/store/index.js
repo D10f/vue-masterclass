@@ -1,15 +1,13 @@
 import { createStore } from 'vuex';
-import { findById } from '@/helpers';
+import { findById, upsert, makeAppendItemToResource } from '@/helpers';
 import sourceData from '@/data.json';
 
 export const store = createStore({
   state: {
     ...sourceData,
-    // authId: 'FsCDAk9w8NeXEceLV87arpsXjnQ2',
     authId: 'VXjpr2WHa8Ux4Bnggym8QFLdv5C3',
   },
   getters: {
-    // authUser: (state) => state.users.find((u) => u.id === state.authId),
     authUser: (state) => findById(state.users, state.authId),
   },
   actions: {
@@ -18,8 +16,8 @@ export const store = createStore({
       post.userId = state.authId;
       commit('setPost', { post });
       commit('appendPostToThread', {
-        postId: post.id,
-        threadId: post.threadId,
+        childId: post.id,
+        parentId: post.threadId,
       });
     },
     async createThread({ commit, state, dispatch }, { text, title, forumId }) {
@@ -39,8 +37,8 @@ export const store = createStore({
 
       // Create thread, append its id to the user and forum it belongs to
       commit('setThread', { thread: newThread });
-      commit('appendThreadToForum', { threadId: id, forumId });
-      commit('appendThreadToUser', { threadId: id, userId });
+      commit('appendThreadToForum', { childId: id, parentId: forumId });
+      commit('appendThreadToUser', { childId: id, parentId: userId });
 
       // Create post after creating the thread
       dispatch('createPost', { text, threadId: id, publishedAt });
@@ -64,42 +62,29 @@ export const store = createStore({
   },
   mutations: {
     setPost(state, { post }) {
-      const matchIdx = state.posts.findIndex((p) => p.id === post.id);
-      if (matchIdx >= 0) {
-        state.posts[matchIdx] = post;
-      } else {
-        state.posts.push(post);
-      }
+      upsert(state.posts, post);
     },
     setThread(state, { thread }) {
-      const matchIdx = state.threads.findIndex((t) => t.id === thread.id);
-      if (matchIdx >= 0) {
-        state.threads[matchIdx] = thread;
-      } else {
-        state.threads.push(thread);
-      }
+      upsert(state.threads, thread);
     },
     setUser(state, { user }) {
-      let userIdx = state.users.findIndex((u) => u.id === user.id);
+      const matchIdx = state.users.findIndex((u) => u.id === user.id);
 
-      if (userIdx >= 0) {
-        state.users[userIdx] = { ...user };
+      if (matchIdx >= 0) {
+        state.users[matchIdx] = { ...user };
       }
     },
-    appendPostToThread(state, { postId, threadId }) {
-      const thread = findById(state.threads, threadId);
-      thread.posts = thread.posts || [];
-      thread.posts.push(postId);
-    },
-    appendThreadToForum(state, { threadId, forumId }) {
-      const forum = findById(state.forums, forumId);
-      forum.threads = forum.threads || [];
-      forum.threads.push(threadId);
-    },
-    appendThreadToUser(state, { threadId, userId }) {
-      const user = findById(state.users, userId);
-      user.threads = user.threads || [];
-      user.threads.push(threadId);
-    },
+    appendPostToThread: makeAppendItemToResource({
+      child: 'posts',
+      parent: 'threads',
+    }),
+    appendThreadToForum: makeAppendItemToResource({
+      child: 'threads',
+      parent: 'forums',
+    }),
+    appendThreadToUser: makeAppendItemToResource({
+      child: 'threads',
+      parent: 'users',
+    }),
   },
 });
