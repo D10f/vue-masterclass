@@ -18,5 +18,8 @@ export default {
       required: true,
     },
   },
+  updated() {
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  },
 };
 </script>

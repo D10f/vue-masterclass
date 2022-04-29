@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomePage from '@/pages/HomePage.vue';
 import ThreadShow from '@/pages/ThreadShow.vue';
+import ThreadCreate from '@/pages/ThreadCreate.vue';
 import ForumShow from '@/pages/ForumShow.vue';
 import CategoryShow from '@/pages/CategoryShow.vue';
 import ProfilePage from '@/pages/ProfilePage.vue';
@@ -73,6 +74,12 @@ const routes = [
         };
       }
     },
+  },
+  {
+    path: '/forum/:forumId/create-thread',
+    name: 'ThreadCreate',
+    component: ThreadCreate,
+    props: true,
   },
   {
     path: '/me',

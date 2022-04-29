@@ -41,7 +41,6 @@ export default {
         text,
         publishedAt: Math.floor(Date.now() / 1000),
         threadId: this.threadId,
-        userId: 'u4r8XCziZEWEXsj2UIKNHBoDh0n2',
       };
       this.$store.dispatch('createPost', newPost);
     },
