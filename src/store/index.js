@@ -5,10 +5,25 @@ import sourceData from '@/data.json';
 export const store = createStore({
   state: {
     ...sourceData,
-    authId: 'VXjpr2WHa8Ux4Bnggym8QFLdv5C3',
+    authId: sourceData.users[0].id,
   },
   getters: {
     authUser: (state) => findById(state.users, state.authId),
+    thread: (state) => (id) => {
+      const thread = findById(state.threads, id);
+      return {
+        ...thread,
+        get author() {
+          return findById(state.users, thread.userId);
+        },
+        get replies() {
+          return thread.posts.length - 1; // subtract first post
+        },
+        get contributorsCount() {
+          return thread.contributors.length;
+        },
+      };
+    },
   },
   actions: {
     createPost({ commit, state }, post) {
@@ -17,6 +32,11 @@ export const store = createStore({
       commit('setPost', { post });
       commit('appendPostToThread', {
         childId: post.id,
+        parentId: post.threadId,
+      });
+
+      commit('appendContributorToThread', {
+        childId: state.authId,
         parentId: post.threadId,
       });
     },
@@ -85,6 +105,10 @@ export const store = createStore({
     appendThreadToUser: makeAppendItemToResource({
       child: 'threads',
       parent: 'users',
+    }),
+    appendContributorToThread: makeAppendItemToResource({
+      child: 'contributors',
+      parent: 'threads',
     }),
   },
 });

@@ -16,7 +16,8 @@
     </header>
 
     <div class="activity">
-      <p class="replies-count">{{ thread.posts.length }} Replies</p>
+      <!-- subtract 1 for original post -->
+      <p class="replies-count">{{ thread.posts.length - 1 }} Replies</p>
       <img class="avatar-medium" :src="threadAuthor.avatar" alt="User Avatar" />
       <div>
         <p class="text-xsmall">

@@ -15,7 +15,10 @@ export const upsert = (resource, item) => {
 export const makeAppendItemToResource = ({ child, parent }) => {
   return (state, { childId, parentId }) => {
     const item = findById(state[parent], parentId);
-    item[child] = item[child] || [];
-    item[child].push(childId);
+    // item[child] = item[child] || [];
+    const itemResources = new Set(item[child] || []);
+    itemResources.add(childId);
+    // item[child].push(childId);
+    item[child] = Array.from(itemResources);
   };
 };
