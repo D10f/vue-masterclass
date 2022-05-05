@@ -38,10 +38,7 @@ export default {
   },
   computed: {
     thread() {
-      // return this.$store.state.threads.find((t) => t.id === this.threadId);
-      const thread = this.$store.getters.thread(this.threadId);
-      console.log(thread);
-      return thread;
+      return this.$store.getters.thread(this.threadId);
     },
     threadPosts() {
       return this.$store.state.posts.filter(
@@ -58,6 +55,11 @@ export default {
       };
       this.$store.dispatch('createPost', newPost);
     },
+  },
+  async created() {
+    const data = await this.$store.dispatch('fetchThread', {
+      threadId: this.threadId,
+    });
   },
 };
 </script>

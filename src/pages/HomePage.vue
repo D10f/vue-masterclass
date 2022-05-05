@@ -1,7 +1,7 @@
 <template>
   <div class="col-full push-top">
     <h1>Welcome to the Forum</h1>
-    <CategoryList :categories="categories" />
+    <CategoryList v-if="categories" :categories="categories" />
   </div>
 </template>
 
@@ -17,6 +17,9 @@ export default {
     return {
       categories: this.$store.state.categories,
     };
+  },
+  async created() {
+    this.categories = await this.$store.dispatch('fetchItems', 'categories');
   },
 };
 </script>

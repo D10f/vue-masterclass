@@ -1,4 +1,7 @@
 export const findById = (resource, id) => {
+  if (!resource) {
+    return null;
+  }
   return resource.find((r) => r.id === id);
 };
 

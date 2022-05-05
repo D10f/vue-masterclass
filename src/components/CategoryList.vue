@@ -21,7 +21,8 @@ export default {
   components: { ForumList },
   methods: {
     getForumsForCategoryId(id) {
-      return this.$store.state.forums.filter((f) => f.categoryId === id);
+      // return this.$store.state.forums.filter((f) => f.categoryId === id);
+      return this.$store.dispatch.getForumsForCategoryId(id);
     },
   },
 };

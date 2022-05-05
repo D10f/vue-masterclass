@@ -61,20 +61,20 @@ const routes = [
     name: 'ThreadShow',
     component: ThreadShow,
     props: true,
-    beforeEnter(to) {
-      const threadExists = store.state.threads.find(
-        (t) => t.id === to.params.threadId
-      );
+    // beforeEnter(to) {
+    //   const threadExists = store.state.threads.find(
+    //     (t) => t.id === to.params.threadId
+    //   );
 
-      if (!threadExists) {
-        return {
-          name: 'NotFound',
-          params: { pathMatch: to.path.split('/').slice(1) },
-          to: to.query,
-          hash: to.hash,
-        };
-      }
-    },
+    //   if (!threadExists) {
+    //     return {
+    //       name: 'NotFound',
+    //       params: { pathMatch: to.path.split('/').slice(1) },
+    //       to: to.query,
+    //       hash: to.hash,
+    //     };
+    //   }
+    // },
   },
   {
     path: '/thread/:threadId/edit',

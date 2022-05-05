@@ -1,11 +1,15 @@
 import { createStore } from 'vuex';
 import { findById, upsert, makeAppendItemToResource } from '@/helpers';
-import sourceData from '@/data.json';
+import { supabase } from '@/config/supabase';
 
 export const store = createStore({
   state: {
-    ...sourceData,
-    authId: sourceData.users[0].id,
+    categories: [],
+    forums: [],
+    threads: [],
+    posts: [],
+    users: [],
+    authId: '6605d9bc-7650-4202-9ec1-0db1f267733e',
   },
   getters: {
     authUser: (state) => findById(state.users, state.authId),
@@ -79,6 +83,32 @@ export const store = createStore({
     updateUser({ commit }, user) {
       commit('setUser', { user });
     },
+    getForumsForCategoryId({ commit, state }, id) {
+      const category = findById(state.categories, id);
+      return dispatch('');
+    },
+    fetchPost({ dispatch }, id) {
+      return dispatch('fetchItem', { resource: 'posts', id });
+    },
+    fetchThread({ dispatch }, id) {
+      return dispatch('fetchItem', { resource: 'threads', id });
+    },
+    fetchForum({ dispatch }, id) {
+      return dispatch('fetchItem', { resource: 'forums', id });
+    },
+    async fetchItem({ commit }, { resource, id }) {
+      const { data, error } = await supabase
+        .from(resource)
+        .select()
+        .eq('id', id);
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      commit('setState', { resource, data });
+      return data;
+    },
   },
   mutations: {
     setPost(state, { post }) {
@@ -88,11 +118,15 @@ export const store = createStore({
       upsert(state.threads, thread);
     },
     setUser(state, { user }) {
-      const matchIdx = state.users.findIndex((u) => u.id === user.id);
+      upsert(state.users, user);
+      // const matchIdx = state.users.findIndex((u) => u.id === user.id);
 
-      if (matchIdx >= 0) {
-        state.users[matchIdx] = { ...user };
-      }
+      // if (matchIdx >= 0) {
+      //   state.users[matchIdx] = { ...user };
+      // }
+    },
+    setState(state, { resource, data }) {
+      upsert(state[resource], data);
     },
     appendPostToThread: makeAppendItemToResource({
       child: 'posts',
